@@ -3,17 +3,11 @@
 Ready to try out Kubeflow? This tutorial will guide you through the steps to get Kubeflow up and running with the minimum hassle and it will help you get started with the most  
 
 To keep things simple, we are going to make the following assumptions:
-
-
-
 * You run  Ubuntu 20.04(focal) or later.
 * You have at least 32GB free memory and 50GB of disk space
 * You have access to the internet for downloading the required snaps and charms.
 
 During the process you will:
-
-
-
 * Install MicroK8s
 * Install Juju
 * Deploy Charmed  Kubeflow
@@ -21,55 +15,39 @@ During the process you will:
 
 _Please note that this tutorial is dedicated to users who aim to install Charmed Kubeflow on their own machine or on a virtual machine with direct access to the browser. In case you run it on a public cloud, the deployment process is the same, but please follow these [instructions](https://charmed-kubeflow.io/docs/dashboard) for accessing the dashboard._
 
-
-
 1. Install and prepare MicroK8s 
 
 The first step on our journey is to install [MicroK8s](https://microk8s.io/). MicroK8s is installed from a snap package. The published snap maintains different `channels` for different releases of Kubernetes. 
-
-
 ```
 sudo snap install microk8s --classic --channel=1.24/stable
 ```
 
-
 For MicroK8s to work without having to use `sudo` for every command, it creates a group called `microk8s`. To make it more convenient to run commands, you will add the current user to this group:
-
-
 ```
 sudo usermod -a -G microk8s $USER
 newgrp microk8s
 ```
 
-
 It is also useful to make sure the user has the proper access and ownership of any `kubectl` configuration files:
-
-
 ```
 sudo chown -f -R $USER ~/.kube
 ```
 
-
 MicroK8s will start up as soon as it is installed. It is a completely functional Kubernetes, running with the least amount of overhead possible. However, for our purposes we will need a Kubernetes with a few more features. A lot of extra services are available as MicroK8s “add-ons” - code which is shipped with the snap and can be turned on and off when it is needed. We can now enable some of these features to get a Kubernetes where we can usefully install Kubeflow. We will add a DNS service, so the applications can find each other, storage, an ingress controller so we can access Kubeflow components and the MetalLB load balancer application. These will be enabled simply at the same time:
-
 
 ```
 microk8s enable dns storage ingress metallb:10.64.140.43-10.64.140.49
 ```
 
-
 You can see that we added some detail when enabling MetalLB, in this case the address pool to use. Many of the add-ons have extra configuration options, which can be found in the [MicroK8s documentation](https://microk8s.io/docs/addon-metallb).
 
 It will take minimum 5 minutes for MicroK8s to install and set up these additional features. Before we do anything else, we should check that the add-ons have been enabled successfully and that MicroK8s is ready for action. We can do this by requesting the status, and supplying the `--wait-ready` option, which tells microk8s to finish whatever processes it is working on before returning:
-
 
 ```
 microk8s status --wait-ready
 ```
 
-
 Now we have a working Kubernetes ready, the next step is to install Juju.
-
 
 ### Install Juju
 
@@ -81,74 +59,55 @@ As with MicroK8s, Juju is installed from a snap package:
 
 As Juju already has a built-in knowledge of MicroK8s and how it works, there is no additional setup or configuration needed. All we need to do is run the command to deploy a Juju controller to the Kubernetes we set up with MicroK8s:
 
-
 ```
 juju bootstrap microk8s
 ```
 
-
 The controller is Juju’s agent, running on Kubernetes, which can be used to deploy and control the components of Kubeflow.
 
 The controller can work with different `models`, which map to namespaces in Kubernetes. You set up a specific model for Kubeflow:
-
-
 ```
 juju add-model kubeflow
 ```
-
 
 Model name must be Kubeflow: Due to an assumption made in the upstream Kubeflow Dashboard code, Kubeflow must be deployed in the Kubernetes namespace `kubeflow` and so we have to use the model name `kubeflow` here.
 
 That’s it for installing Juju!
 
-
 ### Deploying Charmed Kubeflow
 
 Charmed Kubeflow is really a collection of _charms_. Each of these charms deploy and control one application which goes to make up Kubeflow. You can actually just install the components you want, by individually deploying the charms and relating them to each other to build up Kubeflow.  The bundles are really a recipe for a particular deployment of Kubeflow, configuring and relating the applications so you end up with a working deployment with the minimum of effort.
-
-
 ```
 juju deploy kubeflow --trust
 ```
 
-
 Juju will now fetch the applications and begin deploying them to the MicroK8s Kubernetes. This process can take several minutes. You can track the progress by running:
-
-
 ```
 watch -c juju status --color
 ```
-
 
 This will show a list of the applications and their current status. Don’t be surprised if a few show up error messages to begin with - a lot of the components rely on the operation of others, so it can take up to 20 minutes before everything is ready and talking to one another.
 
 While that is going in, there are two pieces of post-install configuration which can usefully be done at this point.
 
-
 ### Configuration
 
 For authentication and allowing access to the dashboard service, some components will need to be configured with the URL to be allowed. This depends on the underlying network provider, but for the known case of running on a local MicroK8s, we also know what the URL will be. It is configured with Juju using the following commands:
-
 
 ```
 juju config dex-auth public-url=http://10.64.140.43.nip.io
 juju config oidc-gatekeeper public-url=http://10.64.140.43.nip.io
 ```
 
-
 Finding the URL: If you have a different setup for MicroK8s, or you are adapting this tutorial for a different Kubernetes, you can find the URL required by examining the IP address of the `istio-ingressgateway` service. For example, you can determinine this information using kubectl: `microk8s kubectl -n kubeflow get svc istio-ingressgateway-workload -o jsonpath='{.status.loadBalancer.ingress[0].ip}'`
 
 To enable simple authentication, and set a username and password for your Kubeflow deployment, run the following commands:
-
-
 ```
 juju config dex-auth static-username=admin
 juju config dex-auth static-password=admin
 ```
 
-
 Feel free to use a different (more secure!) password if you wish.
-
 
 ### Login to Charmed Kubeflow
 
@@ -160,12 +119,7 @@ From a browser on your local machine, this can be reached just by copying and pa
 
 You should now see the Kubeflow “Welcome” page:
 
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image1.png "image_tooltip")
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/welcome.png "welcome page")
 
 
 Click on the “Start Setup” button. On the next screen you will be asked to create a namespace. This is just a way of keeping all the files and settings from one project in a single, easy-to-access place. You can choose any name you like…
@@ -268,20 +222,16 @@ A new window will appear on your screen. Click “**Delete”.**
 
 To install the pipeline compiler tools, you will need to first have Python 3 available, and whichever [pip](https://pypi.org/project/pip/) install tool is relevant for your OS. On Ubuntu 20.04 and similar systems:
 
-
 ```
 sudo apt update
 sudo apt install python3-pip
 ```
 
-
 Next, use `pip` to install the Kubeflow Pipeline package
-
 
 ```
 pip3 install kfp
 ```
-
 
 (depending on your operating system, you may need to use `pip` instead of `pip3` here, but make sure the package is installed for Python3)
 
@@ -302,82 +252,49 @@ The example pipelines are Python files, but to be used through the dashboard, th
 #### Compile pipeline
 
 First, change to the right directory:
-
-
 ```
 cd bundle-kubeflow/tests
 ```
 
-
 Then execute the pipelines/mnist.py file as a module:
-
-
 ```
 python3 -i -m pipelines.mnist
 ```
 
-
 With the terminal now in interactive mode, we can import the `kfp` module:
-
-
 ```
 import kfp
 ```
 
-
 … and execute the function to compile the YAML file:
-
-
 ```
 kfp.compiler.Compiler().compile(mnist_pipeline, 'mnist.yaml')
 ```
 
-
 In this case, `mnist_pipeline` is the name of the main pipeline function in the code, and `mnist.yaml` is the file we want to generate.
-
 
 #### Add the compiled pipeline
 
-
 #### Once you have the compiled YAML file (or downloaded it from the link above) go to the Kubeflow Pipelines Dashboard and click on the `Upload Pipeline` button.
-
 
 #### In the upload section choose the “Upload a file” section and choose the mnist.yaml file. Then click “Create” to create the pipeline.
 
-
 #### 
-
 
 ![alt_text](images/image11.png "image_tooltip")
 
-
 Once the pipeline is created we will be redirected to its Dashboard. Create an experiment first:
-
-
 ![alt_text](images/image12.png "image_tooltip")
-
-
 
 #### Execute it
 
 Once the experiment is added, you will be redirected to `Start a Run`. For this test select ‘One-off’ run and leave all the default parameters and options. Then click `Start` to create your first Pipeline run!
 
-
-
-<p id="gdcalert13" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image13.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert14">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image13.png "image_tooltip")
-
-
 
 #### Look at results
 
 Once the run is started, the browser will redirect to `Runs`, detailing all the stages of the pipeline run. After a few minutes there should be a checkpoint showing that it has been executed successfully.
-
-
-
-<p id="gdcalert14" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image14.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert15">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
 ![alt_text](images/image14.png "image_tooltip")
@@ -385,14 +302,7 @@ Once the run is started, the browser will redirect to `Runs`, detailing all the 
 
 In order to see it, you click on it and a new window will open that will show all the steps of the pipeline that has been executed. After that, you will click on the first name of the pipeline, Loadtask and a new window will open on the right side. 
 
-
-
-<p id="gdcalert15" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image15.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert16">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image15.png "image_tooltip")
-
-
 
 #### Delete pipeline
 
@@ -402,12 +312,9 @@ In order to delete the pipeline, you need to select it, using the thick box plac
 
 A new window will appear, that asks you to confirm the pipeline deletion. Click again on “Delete”
 
-
 ![alt_text](images/image16.png "image_tooltip")
 
-
 That’s it, your pipeline is now deleted!
-
 
 ### Katib
 
@@ -420,13 +327,11 @@ You can run Katib Experiments from the UI and from CLI.
 For CLI execute the following commands:
 
 ```
-
 curl https://raw.githubusercontent.com/kubeflow/katib/master/examples/v1beta1/hp-tuning/grid.yaml > grid-example.yaml
 
 yq -i '.spec.trialTemplate.trialSpec.spec.template.metadata.annotations."sidecar.istio.io/inject" = "false"' grid-example.yaml
 
 kubectl apply -f grid-example.yaml
-
 ```
 
 the yq command is used to disable istio sidecar injection in the .yaml, due to its incompatibility with Katib experiments. Find more details in [upstream docs](https://www.kubeflow.org/docs/components/katib/hyperparameter/).
@@ -434,18 +339,13 @@ the yq command is used to disable istio sidecar injection in the .yaml, due to i
 If you are using a different namespace than `kubeflow` make sure to change that in `grid-example.yaml` before applying the manifest.
 
 These commands will download an example which will create a katib experiment. We can inspect experiment progress using `kubectl` by running the following command:
-
-
 ```
 kubectl -n kubeflow get experiment grid-example -o yaml
 ```
 
-
 We can also use the UI to run the same example. Go to `Experiments (AutoML)`, and select “New Experiment”.
 
-
 ![alt_text](images/image17.png "image_tooltip")
-
 
 Save the contents of [this YAML file](https://raw.githubusercontent.com/kubeflow/katib/master/examples/v1beta1/hp-tuning/grid.yaml) as grid-example.yaml. Open it and edit it, adding `sidecar.istio.io/inject="false"` under .spec.trialTemplate.trialSpec.spec.template.metadata.annotations as shown here:
 
@@ -524,27 +424,19 @@ Refer to the previous section using CLI for clarification on adding this field.
 
 Click the link labelled “Edit and submit YAML”, and paste the contents of the yaml file. Remember to change the namespace field in the metadata section to the namespace where you want to deploy your experiment. Afterwards we will click `Create`.
 
-
 ![alt_text](images/image18.png "image_tooltip")
-
 
 Once the experiment has been submitted, go to the Katib Dashboard and select the experiment.
 
 ![alt_text](images/image19.png "image_tooltip")
 
-
 In the Experiment Details view, you can see how your experiment is progressing.
-
 
 ![alt_text](images/image20.png "image_tooltip")
 
-
 When the experiment completes, you will be able to see the recommended hyperparameters.
 
-
 ![alt_text](images/image21.png "image_tooltip")
-
-
 
 ### Tensorboard
 
@@ -554,13 +446,7 @@ For a quick example, you can reuse the notebook server created in previous step.
 
 Note the `log_dir` path - this location will be needed for Tensorboad creation.
 
-
-
-<p id="gdcalert22" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image22.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert23">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
 ![alt_text](images/image22.png "image_tooltip")
-
 
 Run the notebook and navigate to `Tensorboards`.
 
@@ -568,14 +454,10 @@ Click on `New Tensorboard`. Name it and select the PVC checkbox. Select your not
 
 ![alt_text](images/image23.png "image_tooltip")
 
-
 That’s it! Click on `Create` and your Tensorboard should be up and running within minutes.
 
-
 ![alt_text](images/image24.png "image_tooltip")
-
 
 You can then connect to it and see various metrics and graphs.
 
 ![alt_text](images/image25.png "image_tooltip")
-
