@@ -119,16 +119,16 @@ From a browser on your local machine, this can be reached just by copying and pa
 
 You should now see the Kubeflow “Welcome” page:
 
-![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/welcome.png "welcome page")
+![alt_text](https://assets.ubuntu.com/v1/d6ce2408-Screenshot+from+2022-01-18+16-25-57.png "welcome page")
 
 
 Click on the “Start Setup” button. On the next screen you will be asked to create a namespace. This is just a way of keeping all the files and settings from one project in a single, easy-to-access place. You can choose any name you like…
 
-![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/namespace.png "namespace")
+![alt_text](https://assets.ubuntu.com/v1/24efd474-Screenshot+from+2022-01-18+16-31-06.png "namespace")
 
 Once you click on the “Finish” button, the Dashboard will be displayed!
 
-![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/dashboard.png "dashboard")
+![alt_text](https://assets.ubuntu.com/v1/8201b98f-Screenshot+from+2022-01-18+16-33-37.png "dashboard")
 
 More information on accessing the dashboard can be found in [this guide](https://charmed-kubeflow.io/docs/dashboard).
 
@@ -156,7 +156,7 @@ This behavior has been previously observed on pods of katib-controller, kubeflow
 
 ### Charmed Kubeflow Dashboard
 
-![alt_text](images/image4.png "image_tooltip")
+![alt_text](https://assets.ubuntu.com/v1/8201b98f-Screenshot+from+2022-01-18+16-33-37.png "dashboard")
 
 The Kubeflow Dashboard combines some quick links to the UI for various components of your Kubeflow deploy (Notebooks, Pipelines, Katib) as well as shortcuts to recent actions and some handy links to the upstream Kubeflow documentation.
 
@@ -174,7 +174,7 @@ In the `New Notebook` section you will be able to specify several options for th
 
 Once the Notebook Server is created you connect to it, by clicking on the “Connect” button from the left side to it and access your Jupyter Notebook environment which will be opened in a new tab.
 
-![alt_text](images/image5.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/6/6a9282fb94bf2e0cd2fbc2dbf90270f26a0110f5_2_690x467.png "notebooks")
 
 For testing the server we will upload the [Tensorflow 2 quickstart for experts example](https://www.tensorflow.org/tutorials/quickstart/advanced).
 
@@ -182,11 +182,11 @@ Click on the link above and click on the `Download Notebook` button just below t
 
 On the `Notebook Server` page, click on the `Upload` button, which is located in the side-bar, at the top, and select the `advanced.ipnyb` file.
 
-![alt_text](images/image6.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/7/761cbbb5a77af026663160fa17535f7e4c90aba8.png "jupyter-notebook")
 
 Once uploaded, click on the notebook name to open a new tab with the notebook content.
 
-![alt_text](images/image7.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/b/b45da91eb8010140205551342d8350b3a46b531f.png "notebook-content")
 
 Once uploaded, click on the notebook name to open a new tab with the notebook content.
 
@@ -194,7 +194,7 @@ You can read through the content for a better understanding of what this noteboo
 
 #### Kubeflow Notebook Volume
 
-In order to see the volume of the notebook that you just created in the previous step, please click on Volumea on the left side-bar. You will see a volume that has the same name as the notebook with ”-volume” at the end.
+In order to see the volume of the notebook that you just created in the previous step, please click on Volumes on the left side-bar. You will see a volume that has the same name as the notebook with ”-volume” at the end.
 
 ![alt_text](images/image8.png "image_tooltip")
 
@@ -202,7 +202,7 @@ In order to see the volume of the notebook that you just created in the previous
 
 In order to  delete a new Notebook, you will click on `Notebooks` in the left-side navigation. Go to the notebook you want to delete, an click on the small trash bin icon situated alongside the Notebook.
 
-![alt_text](images/image9.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/6/6a9282fb94bf2e0cd2fbc2dbf90270f26a0110f5.png "notebooks")
 
 A new window will appear on your screen. Click “**Delete”.**
 
@@ -272,22 +272,22 @@ In this case, `mnist_pipeline` is the name of the main pipeline function in the 
 
 #### 
 
-![alt_text](images/image11.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/1/11761c3c3f40c3332130ffa7b4d363a6ed5c9e90_2_690x400.png "upload pipeline")
 
 Once the pipeline is created we will be redirected to its Dashboard. Create an experiment first:
-![alt_text](images/image12.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/b/b215b600fa3eae4e1b7e89de311b1237062428d5.png "create experiment")
 
 #### Execute it
 
 Once the experiment is added, you will be redirected to `Start a Run`. For this test select ‘One-off’ run and leave all the default parameters and options. Then click `Start` to create your first Pipeline run!
 
-![alt_text](images/image13.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/d/df31165766cdfbe44fbf3b7d892da8c6d2009dc8_2_690x461.png "start a run")
 
 #### Look at results
 
 Once the run is started, the browser will redirect to `Runs`, detailing all the stages of the pipeline run. After a few minutes there should be a checkpoint showing that it has been executed successfully.
 
-![alt_text](images/image14.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/f/fa418cd98824fa845a2086b18437c6cfa5fe5974_2_690x456.png "runs")
 
 In order to see it, you click on it and a new window will open that will show all the steps of the pipeline that has been executed. After that, you will click on the first name of the pipeline, Loadtask and a new window will open on the right side. 
 
