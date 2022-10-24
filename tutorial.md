@@ -124,39 +124,29 @@ You should now see the Kubeflow “Welcome” page:
 
 Click on the “Start Setup” button. On the next screen you will be asked to create a namespace. This is just a way of keeping all the files and settings from one project in a single, easy-to-access place. You can choose any name you like…
 
-![alt_text](images/image2.png "image_tooltip")
-
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/namespace.png "namespace")
 
 Once you click on the “Finish” button, the Dashboard will be displayed!
 
-
-![alt_text](images/image3.png "image_tooltip")
-
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/images/dashboard.png "dashboard")
 
 More information on accessing the dashboard can be found in [this guide](https://charmed-kubeflow.io/docs/dashboard).
-
 
 ### Troubleshooting
 
 Copy from quickstart the section DID SOMETHING GO WRONG
 
-
 ## Part II Get started with Charmed Kubeflow
-
 
 ### Charmed Kubeflow Dashboard
 
-
 ![alt_text](images/image4.png "image_tooltip")
 
-
 The Kubeflow Dashboard combines some quick links to the UI for various components of your Kubeflow deploy (Notebooks, Pipelines, Katib) as well as shortcuts to recent actions and some handy links to the upstream Kubeflow documentation.
-
 
 ### Kubeflow Notebooks
 
 Kubeflow Notebooks provides a way to run web-based development environments inside your Kubernetes cluster by running them inside Pods. [Read more](https://www.kubeflow.org/docs/components/notebooks/overview/#:~:text=Kubeflow%20Notebooks%20provides%20a%20way,Code%20(code%2Dserver).) about them in the upstream documentation.
-
 
 #### Create a Kubeflow Notebook
 
@@ -170,7 +160,6 @@ Once the Notebook Server is created you connect to it, by clicking on the “Con
 
 ![alt_text](images/image5.png "image_tooltip")
 
-
 For testing the server we will upload the [Tensorflow 2 quickstart for experts example](https://www.tensorflow.org/tutorials/quickstart/advanced).
 
 Click on the link above and click on the `Download Notebook` button just below the heading. This will download the file <code>advanced<strong>.ipynb</strong></code> into your usual Download location. This file will be used to create the example notebook.
@@ -181,23 +170,17 @@ On the `Notebook Server` page, click on the `Upload` button, which is located in
 
 Once uploaded, click on the notebook name to open a new tab with the notebook content.
 
-
 ![alt_text](images/image7.png "image_tooltip")
-
 
 Once uploaded, click on the notebook name to open a new tab with the notebook content.
 
 You can read through the content for a better understanding of what this notebook does. Click on the Run button to execute each stage of the document, or click on the double-chevron (`>>`) to execute the entire document.
 
-
 #### Kubeflow Notebook Volume
 
 In order to see the volume of the notebook that you just created in the previous step, please click on Volumea on the left side-bar. You will see a volume that has the same name as the notebook with ”-volume” at the end.
 
-
 ![alt_text](images/image8.png "image_tooltip")
-
-
 
 #### Delete a Kubeflow Notebook
 
@@ -205,18 +188,13 @@ In order to  delete a new Notebook, you will click on `Notebooks` in the left-si
 
 ![alt_text](images/image9.png "image_tooltip")
 
-
 A new window will appear on your screen. Click “**Delete”.**
 
-
 ![alt_text](images/image10.png "image_tooltip")
-
-
 
 ### Kubeflow Pipeline
 
 #### The [official Kubeflow Documentation](https://www.kubeflow.org/docs/pipelines/) explains the recommended workflow for creating a pipeline. This documentation is well worth reading thoroughly to understand how pipelines are constructed. For this example run-through though, we can take a shortcut and use one of the [Kubeflow testing pipelines](https://github.com/canonical/bundle-kubeflow/blob/master/tests/pipelines/mnist.py).
-
 
 #### Install pipeline compiler
 
@@ -240,14 +218,11 @@ pip3 install kfp
 
 Next fetch the Kubeflow repository:
 
-
 ```
 git clone https://github.com/canonical/bundle-kubeflow.git
 ```
 
-
 The example pipelines are Python files, but to be used through the dashboard, they need to be compiled into a YAML. The `dsl-compile` command can be used for this usually, but for code which is part of a larger package, this is not always straightforward. A reliable way to compile such files is to execute them as a python module in interactive mode, then use the `kfp` tools within Python to compile the file.
-
 
 #### Compile pipeline
 
@@ -296,9 +271,7 @@ Once the experiment is added, you will be redirected to `Start a Run`. For this 
 
 Once the run is started, the browser will redirect to `Runs`, detailing all the stages of the pipeline run. After a few minutes there should be a checkpoint showing that it has been executed successfully.
 
-
 ![alt_text](images/image14.png "image_tooltip")
-
 
 In order to see it, you click on it and a new window will open that will show all the steps of the pipeline that has been executed. After that, you will click on the first name of the pipeline, Loadtask and a new window will open on the right side. 
 
