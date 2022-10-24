@@ -334,7 +334,7 @@ kubectl -n kubeflow get experiment grid-example -o yaml
 
 We can also use the UI to run the same example. Go to `Experiments (AutoML)`, and select “New Experiment”.
 
-![alt_text](images/image17.png "image_tooltip")
+![alt_text](https://assets.ubuntu.com/v1/12ab1619-kf-exp02.png "experiments")
 
 Save the contents of [this YAML file](https://raw.githubusercontent.com/kubeflow/katib/master/examples/v1beta1/hp-tuning/grid.yaml) as grid-example.yaml. Open it and edit it, adding `sidecar.istio.io/inject="false"` under .spec.trialTemplate.trialSpec.spec.template.metadata.annotations as shown here:
 
@@ -413,19 +413,19 @@ Refer to the previous section using CLI for clarification on adding this field.
 
 Click the link labelled “Edit and submit YAML”, and paste the contents of the yaml file. Remember to change the namespace field in the metadata section to the namespace where you want to deploy your experiment. Afterwards we will click `Create`.
 
-![alt_text](images/image18.png "image_tooltip")
+![alt_text](https://assets.ubuntu.com/v1/02c70842-kf-exp-04.png "edit yaml")
 
 Once the experiment has been submitted, go to the Katib Dashboard and select the experiment.
 
-![alt_text](images/image19.png "image_tooltip")
+![alt_text](https://assets.ubuntu.com/v1/a2f971aa-kf-exp-01.png "experiment")
 
 In the Experiment Details view, you can see how your experiment is progressing.
 
-![alt_text](images/image20.png "image_tooltip")
+![alt_text](https://assets.ubuntu.com/v1/16584a9c-kf-exp-05.png "experiment progress")
 
 When the experiment completes, you will be able to see the recommended hyperparameters.
 
-![alt_text](images/image21.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/c/c8b2858b86d13b1f83376f1602dc6146db10ead0.png "hyperparameters")
 
 ### Tensorboard
 
@@ -435,18 +435,18 @@ For a quick example, you can reuse the notebook server created in previous step.
 
 Note the `log_dir` path - this location will be needed for Tensorboad creation.
 
-![alt_text](images/image22.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/8/8ffdab0815d5cc400a2f3efde1ab287b09c20b69.png "tensorboards")
 
 Run the notebook and navigate to `Tensorboards`.
 
 Click on `New Tensorboard`. Name it and select the PVC checkbox. Select your notebook’s workspace volume from the dropdown list and fill in the `Mount Path` field with the `log_dir` you have noted in the previous step. In our example it’s `logs/fit`.
 
-![alt_text](images/image23.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/original/2X/d/d05de5147b3b7ca63f1fcc844bc5e24f643f6fbe.png "new-tensorboard")
 
 That’s it! Click on `Create` and your Tensorboard should be up and running within minutes.
 
-![alt_text](images/image24.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/4/460b202c2b7f918feee9631746d7ca47df3fd2d3_2_690x442.png "tensroboard-up")
 
 You can then connect to it and see various metrics and graphs.
 
-![alt_text](images/image25.png "image_tooltip")
+![alt_text](https://discourse.charmhub.io/uploads/default/optimized/2X/c/c0cb54f250fd0f9c6da3727e04ecedd24f1ba647_2_690x442.png "tensorboard-graphs")
