@@ -134,8 +134,24 @@ More information on accessing the dashboard can be found in [this guide](https:/
 
 ### Troubleshooting
 
-Copy from quickstart the section DID SOMETHING GO WRONG
+#### Kubeflow Dashboard can’t be accessed
 
+Sometimes after accessing the URL specified in the Configuration section (juju config dex-auth public-url) the dashboard is not reachable (no response in the browser). This issue might be caused by a missing gateway resource in the cluster. You can list gateway resources in the cluster with microk8s kubectl get gateway -A. If the response is No resources found you can force the charm to create it the following way:
+
+``
+juju run --unit istio-pilot/0 -- "export JUJU_DISPATCH_PATH=hooks/config-changed; ./dispatch"
+``
+
+If you are running it on a VM instance in the public cloud, please go to the “Access dashboard section” from [here](https://charmed-kubeflow.io/docs/dashboard).
+
+#### Applications in an error state
+Sometimes some applications in your Kubeflow deployment can be in an error state. You should see this with the juju status command. When this happens you can manually check the state of the pods in the cluster by running microk8s kubectl get po -n kubeflow. Pods are expected to be in Running status. If some pods are in CrashLoopBackOff you can further inspect the pod by checking the logs with microk8s kubectl logs -n kubeflow <name-of-the-pod>. If you see error messages like this one: “error”:“too many open files”` you can execute the following command on your host machine and the applications will slowly turn to active:
+```
+sudo sysctl fs.inotify.max_user_instances=1280
+sudo sysctl fs.inotify.max_user_watches=655360
+```
+
+This behavior has been previously observed on pods of katib-controller, kubeflow-profiles, kfp-api and kfp-persistence.
 ## Part II Get started with Charmed Kubeflow
 
 ### Charmed Kubeflow Dashboard
