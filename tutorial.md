@@ -196,7 +196,7 @@ You can read through the content for a better understanding of what this noteboo
 
 In order to see the volume of the notebook that you just created in the previous step, please click on Volumes on the left side-bar. You will see a volume that has the same name as the notebook with ”-volume” at the end.
 
-![alt_text](images/image8.png "image_tooltip")
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/volume.png "volume")
 
 #### Delete a Kubeflow Notebook
 
@@ -299,7 +299,7 @@ In order to delete the pipeline, you need to select it, using the thick box plac
 
 A new window will appear, that asks you to confirm the pipeline deletion. Click again on “Delete”
 
-![alt_text](images/image16.png "image_tooltip")
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/delete-pipeline.png "delete pipeline")
 
 That’s it, your pipeline is now deleted!
 
