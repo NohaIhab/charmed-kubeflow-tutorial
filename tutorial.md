@@ -206,7 +206,7 @@ In order to  delete a new Notebook, you will click on `Notebooks` in the left-si
 
 A new window will appear on your screen. Click “**Delete”.**
 
-![alt_text](images/image10.png "image_tooltip")
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/main/delete-notebook.png "delete notebook")
 
 ### Kubeflow Pipeline
 
@@ -291,13 +291,11 @@ Once the run is started, the browser will redirect to `Runs`, detailing all the 
 
 In order to see it, you click on it and a new window will open that will show all the steps of the pipeline that has been executed. After that, you will click on the first name of the pipeline, Loadtask and a new window will open on the right side. 
 
-![alt_text](images/image15.png "image_tooltip")
+![alt_text](https://github.com/NohaIhab/charmed-kubeflow-tutorial/blob/bff47025966706917e06cfebc0fe64bb2b9773e7/run-done.png "pipeline run")
 
 #### Delete pipeline
 
 In order to delete the pipeline, you need to select it, using the thick box placed on the left side of the name. Then, go to the top right corner, and click “**Delete”**
-
-**[image]**
 
 A new window will appear, that asks you to confirm the pipeline deletion. Click again on “Delete”
 
